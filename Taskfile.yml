@@ -53,3 +53,21 @@ tasks:
         - task: git:tag:major
         - cmd: git push --follow-tags
           silent: true
+
+    git:branch:delete:
+      desc: Delete branch both local and remote
+      cmds:
+        - task: git:branch:deletelocal
+        - task: git:branch:deleteremote
+
+    git:branch:deletelocal:
+      desc: Delete local branch
+      cmds:
+        - cmd: git branch -d <name>
+          silent: true
+
+    git:branch:deleteremote:
+      desc: Delete remote branch
+      cmds:
+        - cmd: git push origin --delete <name>
+          silent: true
