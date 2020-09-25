@@ -11,7 +11,6 @@ tasks:
             -a "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)+1))" \
             -m "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)+1))"
           silent: true
-
     git:tag:minor:
       desc: Add git tag, but upgrade latest minor version
       cmds:
@@ -19,7 +18,6 @@ tasks:
             -a "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)" \
             -m "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)"
           silent: true
-
     git:tag:major:
       desc: Add git tag, upgrade latest major version
       cmds:
@@ -27,7 +25,6 @@ tasks:
             -a "v$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)" \
             -m "v$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)"
           silent: true
-    
     git:tag:deletelatest:
       desc: Delete latest (local) tag
       cmds:
@@ -46,7 +43,6 @@ tasks:
         - task: git:tag:minor
         - cmd: git push --follow-tags
           silent: true
-
     release:major:
       desc: Create new major version tag and push
       cmds:
@@ -54,20 +50,12 @@ tasks:
         - cmd: git push --follow-tags
           silent: true
 
-    git:branch:delete:
-      desc: Delete branch both local and remote
+    git:branch:help:
+      desc: Show common commands for git branches
       cmds:
-        - task: git:branch:deletelocal
-        - task: git:branch:deleteremote
-
-    git:branch:deletelocal:
-      desc: Delete local branch
-      cmds:
-        - cmd: git branch -d <name>
-          silent: true
-
-    git:branch:deleteremote:
-      desc: Delete remote branch
-      cmds:
-        - cmd: git push origin --delete <name>
+        - cmd: |
+            printf "%-40s%s\n" "> git branch -d <name>" "Delete local branch"
+            printf "%-40s%s\n" "> git push origin --delete <name>" "Delete remote branch"
+            printf "%-40s%s\n" "> git branch <name>" "Create local branch"
+            printf "%-40s%s\n" "> git checkout -b <name>" "Create local branch and check it out"
           silent: true
