@@ -1,0 +1,8 @@
+# ignore everything
+/*
+
+# except for these files
+# gitignore
+!/.gitignore
+# taskfile
+!/Taskfile.yml
