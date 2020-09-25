@@ -51,7 +51,7 @@ tasks:
         - task: git:tag:patch
         - cmd: printf "# Changelog\n\n" > CHANGELOG.md
           silent: true
-        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog"
+        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog" 2>/dev/null || echo "Please edit the changelog" && exit 1
           silent: true
         - cmd: git push --follow-tags
           silent: true
@@ -61,7 +61,7 @@ tasks:
         - task: git:tag:minor
         - cmd: printf "# Changelog\n\n" > CHANGELOG.md
           silent: true
-        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog"
+        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog" 2>/dev/null || echo "Please edit the changelog" && exit 1
           silent: true
         - cmd: git push --follow-tags
           silent: true
@@ -71,7 +71,7 @@ tasks:
         - task: git:tag:major
         - cmd: printf "# Changelog\n\n" > CHANGELOG.md
           silent: true
-        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog"
+        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog" 2>/dev/null || echo "Please edit the changelog" && exit 1
           silent: true
         - cmd: git push --follow-tags
           silent: true
