@@ -28,8 +28,7 @@ tasks:
           sh: git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1
         MINOR:
           sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'.' -f2 )+1))"
-        PATCH:
-          sh: git tag | sort -V | tail -1 | cut -d'.' -f3
+        PATCH: "0"
     git:tag:major:
       desc: Add git tag, upgrade latest major version
       cmds:
@@ -38,10 +37,8 @@ tasks:
       vars:
         MAJOR:
           sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 )+1))"
-        MINOR:
-          sh: git tag | sort -V | tail -1 | cut -d'.' -f2
-        PATCH:
-          sh: git tag | sort -V | tail -1 | cut -d'.' -f3
+        MINOR: "0"
+        PATCH: "0"
     git:tag:deletelatest:
       desc: Delete latest (local) tag
       cmds:
