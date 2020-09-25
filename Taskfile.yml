@@ -2,29 +2,46 @@
 
 version: '3'
 
+output: prefixed
+
 tasks:
 
     git:tag:patch:
       desc: Add git tag, but upgrade latest patch version
       cmds:
-        - cmd: git tag \
-            -a "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)+1))" \
-            -m "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)+1))"
+        - cmd: git tag -a "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}" -m "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}"
           silent: true
+      vars:
+        MAJOR:
+          sh: git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1
+        MINOR:
+          sh: git tag | sort -V | tail -1 | cut -d'.' -f2
+        PATCH:
+          sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'.' -f3 )+1))"
     git:tag:minor:
       desc: Add git tag, but upgrade latest minor version
       cmds:
-        - cmd: git tag \
-            -a "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)" \
-            -m "v$(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0).$(($(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)"
+        - cmd: git tag -a "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}" -m "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}"
           silent: true
+      vars:
+        MAJOR:
+          sh: git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1
+        MINOR:
+          sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'.' -f2 )+1))"
+        PATCH:
+          sh: git tag | sort -V | tail -1 | cut -d'.' -f3
     git:tag:major:
       desc: Add git tag, upgrade latest major version
       cmds:
-        - cmd: git tag \
-            -a "v$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)" \
-            -m "v$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 || echo 0)+1)).$(git tag | sort -V | tail -1 | cut -d'.' -f2 || echo 0).$(git tag | sort -V | tail -1 | cut -d'.' -f3 || echo 0)"
+        - cmd: git tag -a "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}" -m "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}"
           silent: true
+      vars:
+        MAJOR:
+          sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 )+1))"
+        MINOR:
+          sh: git tag | sort -V | tail -1 | cut -d'.' -f2
+        PATCH:
+          sh: git tag | sort -V | tail -1 | cut -d'.' -f3
     git:tag:deletelatest:
       desc: Delete latest (local) tag
       cmds:
