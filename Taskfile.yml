@@ -49,18 +49,30 @@ tasks:
       desc: Create new patch version tag and push
       cmds:
         - task: git:tag:patch
+        - cmd: printf "# Changelog\n\n" > CHANGELOG.md
+          silent: true
+        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog"
+          silent: true
         - cmd: git push --follow-tags
           silent: true
     release:minor:
       desc: Create new minor version tag and push
       cmds:
         - task: git:tag:minor
+        - cmd: printf "# Changelog\n\n" > CHANGELOG.md
+          silent: true
+        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog"
+          silent: true
         - cmd: git push --follow-tags
           silent: true
     release:major:
       desc: Create new major version tag and push
       cmds:
         - task: git:tag:major
+        - cmd: printf "# Changelog\n\n" > CHANGELOG.md
+          silent: true
+        - cmd: git add CHANGELOG.md && git commit -m "Resetted changelog"
+          silent: true
         - cmd: git push --follow-tags
           silent: true
 
