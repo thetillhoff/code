@@ -47,7 +47,7 @@ tasks:
       desc: Create new patch version tag and push
       cmds:
         - task: git:tag:patch
-        - cmd: printf "# Changelog\n\n" > CHANGELOG.md
+        - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
           silent: true
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && exit 1)
           silent: true
@@ -57,7 +57,7 @@ tasks:
       desc: Create new minor version tag and push
       cmds:
         - task: git:tag:minor
-        - cmd: printf "# Changelog\n\n" > CHANGELOG.md
+        - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
           silent: true
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && exit 1)
           silent: true
@@ -67,7 +67,7 @@ tasks:
       desc: Create new major version tag and push
       cmds:
         - task: git:tag:major
-        - cmd: printf "# Changelog\n\n" > CHANGELOG.md
+        - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
           silent: true
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && exit 1)
           silent: true
