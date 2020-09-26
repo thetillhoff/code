@@ -47,7 +47,9 @@ tasks:
       desc: Create new patch version tag and push
       silent: true
       cmds:
-        - cmd: git fetch origin --tags --force
+        - cmd: echo "syncing local tags with tags of origin"
+        - cmd: git tag -d $(git tag -l) >/dev/null
+        - cmd: git fetch origin --tags --force >/dev/null
         - task: git:tag:patch
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
@@ -56,7 +58,9 @@ tasks:
       desc: Create new minor version tag and push
       silent: true
       cmds:
-        - cmd: git fetch origin --tags --force
+        - cmd: echo "syncing local tags with tags of origin"
+        - cmd: git tag -d $(git tag -l) >/dev/null
+        - cmd: git fetch origin --tags --force >/dev/null
         - task: git:tag:minor
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
@@ -65,7 +69,9 @@ tasks:
       desc: Create new major version tag and push
       silent: true
       cmds:
-        - cmd: git fetch origin --tags --force
+        - cmd: echo "syncing local tags with tags of origin"
+        - cmd: git tag -d $(git tag -l) >/dev/null
+        - cmd: git fetch origin --tags --force >/dev/null
         - task: git:tag:major
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
