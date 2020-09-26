@@ -6,9 +6,9 @@ tasks:
 
     git:tag:patch:
       desc: Add git tag, but upgrade latest patch version
+      silent: true
       cmds:
         - cmd: git tag -a "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}" -m "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}"
-          silent: true
       vars:
         MAJOR:
           sh: git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1
@@ -18,9 +18,9 @@ tasks:
           sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'.' -f3 )+1))"
     git:tag:minor:
       desc: Add git tag, but upgrade latest minor version
+      silent: true
       cmds:
         - cmd: git tag -a "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}" -m "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}"
-          silent: true
       vars:
         MAJOR:
           sh: git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1
@@ -29,9 +29,9 @@ tasks:
         PATCH: "0"
     git:tag:major:
       desc: Add git tag, upgrade latest major version
+      silent: true
       cmds:
         - cmd: git tag -a "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}" -m "v{{ default "0" .MAJOR }}.{{ default "0" .MINOR }}.{{ default "0" .PATCH }}"
-          silent: true
       vars:
         MAJOR:
           sh: echo "$(($(git tag | sort -V | tail -1 | cut -d'v' -f2 | cut -d'.' -f1 )+1))"
@@ -39,58 +39,57 @@ tasks:
         PATCH: "0"
     git:tag:deletelatest:
       desc: Delete latest (local) tag
+      silent: true
       cmds:
         - cmd: git tag -d $(git tag | sort -V | tail -1)
-          silent: true
 
     release:patch:
       desc: Create new patch version tag and push
+      silent: true
       cmds:
+        - cmd: git fetch origin --tags --force
         - task: git:tag:patch
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
-          silent: true
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
-          silent: true
         - cmd: git push --follow-tags
-          silent: true
     release:minor:
       desc: Create new minor version tag and push
+      silent: true
       cmds:
+        - cmd: git fetch origin --tags --force
         - task: git:tag:minor
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
-          silent: true
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
-          silent: true
         - cmd: git push --follow-tags
-          silent: true
     release:major:
       desc: Create new major version tag and push
+      silent: true
       cmds:
+        - cmd: git fetch origin --tags --force
         - task: git:tag:major
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
-          silent: true
         - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
-          silent: true
         - cmd: git push --follow-tags
-          silent: true
 
     git:branch:help:
       desc: Show common commands for git branches
+      silent: true
       cmds:
         - cmd: |
             printf "%-40s%s\n" "> git branch -d <name>" "Delete local branch"
             printf "%-40s%s\n" "> git push origin --delete <name>" "Delete remote branch"
             printf "%-40s%s\n" "> git branch <name>" "Create local branch"
             printf "%-40s%s\n" "> git checkout -b <name>" "Create local branch and check it out"
-          silent: true
     
     git:deletelatestcommitkeepchanges:
       desc: Delete latest commit (singular!) but keep changes
+      silent: true
       cmds:
         - git reset "HEAD^"
 
     gpg:setup:
       desc: Set your gpg key up and tell git about it
+      silent: true
       cmds:
         - cmd: |
             echo "%echo Generating gpg key
@@ -106,19 +105,12 @@ tasks:
             %commit
             %echo done
             " > gpgconfig
-          silent: true
         - cmd: gpg --batch --generate-key gpgconfig
-          silent: true
         - cmd: rm gpgconfig
-          silent: true
         - cmd: git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG | grep "sec" | cut -d' ' -f4 | cut -d'/' -f2)
-          silent: true
         - cmd: git config --global commit.gpgsign true
-          silent: true
         - cmd: gpg --armor --export $(gpg --list-secret-keys --keyid-format LONG | grep "sec" | cut -d' ' -f4 | cut -d'/' -f2)
-          silent: true
         - cmd: echo "Now you only need to tell github (https://github.com/settings/keys) and vscode (setting git.enableCommitSigning) about it :)"
-          silent: true
       vars:
         REALNAME: "Till Hoffmann"
         EMAIL: "till.hoffmann@enforge.de"
