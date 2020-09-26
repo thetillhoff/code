@@ -84,7 +84,7 @@ tasks:
             printf "%-40s%s\n" "> git checkout -b <name>" "Create local branch and check it out"
           silent: true
     
-    git:deletecommitskeepchanges:
+    git:deletelatestcommitkeepchanges:
       desc: Delete latest commit (singular!) but keep changes
       cmds:
         - git reset "HEAD^"
