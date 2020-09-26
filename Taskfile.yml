@@ -49,7 +49,7 @@ tasks:
         - task: git:tag:patch
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
           silent: true
-        - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && exit 1)
+        - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
           silent: true
         - cmd: git push --follow-tags
           silent: true
@@ -59,7 +59,7 @@ tasks:
         - task: git:tag:minor
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
           silent: true
-        - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && exit 1)
+        - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
           silent: true
         - cmd: git push --follow-tags
           silent: true
@@ -69,7 +69,7 @@ tasks:
         - task: git:tag:major
         - cmd: printf "# Changelog\n\n- \n" > CHANGELOG.md
           silent: true
-        - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && exit 1)
+        - cmd: (git add CHANGELOG.md 2>/dev/null && git commit -m "Resetted changelog" >/dev/null) || (echo "Please edit the changelog first" && task global:git:tag:deletelatest && exit 1)
           silent: true
         - cmd: git push --follow-tags
           silent: true
