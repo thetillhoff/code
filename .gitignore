@@ -1,12 +1,2 @@
-# ignore all folders in this directory
-/*/
-
-# except for these files
-# gitignore
-!/.gitignore
-# taskfile
-!/Taskfile.yml
-# readme
-!/README.md
-# licence
-!/LICENCE
+# ignore all folders in this directory, but no files
+*/
